@@ -29,7 +29,7 @@ export default function Book({navigation}){
         <Text style = {styles.label}>Date of Interest *</Text>
         <TextInput
             style = {styles.input}
-            placeholder = "What ate do you want to book?"
+            placeholder = "What date do you want to book?"
             placeholderTextColor = "#999"
             autoCapitalize = "words"
             value = {date}
