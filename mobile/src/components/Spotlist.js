@@ -12,7 +12,6 @@ function Spotlist({bed, navigation}){
                 params : {bed}
             })
             setSpots(response.data);
-            console.log(response.data)
         }
         loadSpots();
     },[]);
@@ -23,7 +22,7 @@ function Spotlist({bed, navigation}){
 
     return (    
         <View style = {styles.container}>
-            <Text style = {styles.title}>Companies that use <Text style = {styles.bold}>{bed}</Text></Text>
+            <Text style = {styles.title}>Hostels that use <Text style = {styles.bold}>{bed}</Text> bed</Text>
             <FlatList
                 style = {styles.list}
                 data = {spots}

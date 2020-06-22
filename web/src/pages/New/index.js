@@ -28,7 +28,7 @@ export default function New({history}){
      await api.post('/spots',data ,{
             headers : {user_id}
         })
-        history.push('/dashboad');
+        history.push('/dashboard');
     }
     return (
         <form onSubmit = {handlesubmit}>
