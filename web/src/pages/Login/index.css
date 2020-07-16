@@ -1,0 +1,9 @@
+span{
+    display: block;
+    color: #c53030;
+    margin-bottom: 4px;
+}
+form input.has-error {
+    border: 1px solid #c53030;
+    margin-bottom: -0.5px;
+}

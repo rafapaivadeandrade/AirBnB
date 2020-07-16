@@ -1,10 +1,9 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import api from "../../services/api";
 import "./index.css";
 import camera from "../../assets/camera.svg";
-import * as Yup from "yup";
-
 import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
   hostel: Yup.string().required("Required"),
@@ -22,7 +21,7 @@ const onSubmit = (values) => {
   console.log(values);
 };
 
-export default function New({ history }) {
+export default function EditSpot({ history }) {
   const formik = useFormik({
     initialValues,
     onSubmit,
@@ -33,6 +32,18 @@ export default function New({ history }) {
   const [beds, setbeds] = useState("");
   const [price, setPrice] = useState("");
 
+  useEffect(() => {
+    async function loadSpot() {
+      const spot_id = localStorage.getItem("spot");
+      const response = await api.get(`/spot/${spot_id}`);
+
+      sethostel(response.data.hostel);
+      setbeds(response.data.beds);
+      setPrice(response.data.price);
+    }
+    loadSpot();
+  }, []);
+
   const preview = useMemo(() => {
     return thumbnail ? URL.createObjectURL(thumbnail) : null;
   }, [thumbnail]);
@@ -41,13 +52,14 @@ export default function New({ history }) {
     event.preventDefault();
     const data = new FormData();
     const user_id = localStorage.getItem("user");
+    const spot_id = localStorage.getItem("spot");
 
     data.append("thumbnail", thumbnail);
     data.append("hostel", hostel);
     data.append("beds", beds);
     data.append("price", price);
 
-    await api.post("/spots", data, {
+    await api.put(`/spot/${spot_id}`, data, {
       headers: { user_id },
     });
     history.push("/dashboard");
