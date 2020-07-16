@@ -18,14 +18,9 @@ const initialValues = {
   price: "",
 };
 
-const onSubmit = (values) => {
-  console.log(values);
-};
-
 export default function New({ history }) {
   const formik = useFormik({
     initialValues,
-    onSubmit,
     validationSchema,
   });
   const [thumbnail, setThumbnail] = useState("");
@@ -41,11 +36,10 @@ export default function New({ history }) {
     event.preventDefault();
     const data = new FormData();
     const user_id = localStorage.getItem("user");
-
     data.append("thumbnail", thumbnail);
-    data.append("hostel", hostel);
-    data.append("beds", beds);
-    data.append("price", price);
+    data.append("hostel", formik.values.hostel);
+    data.append("beds", formik.values.beds);
+    data.append("price", formik.values.price);
 
     await api.post("/spots", data, {
       headers: { user_id },
@@ -54,7 +48,7 @@ export default function New({ history }) {
   }
   return (
     <>
-      <form onSubmit={(handlesubmit, formik.handleSubmit)}>
+      <form onSubmit={handlesubmit}>
         <label
           id="thumbnail"
           style={{ backgroundImage: `url(${preview})` }}
@@ -71,7 +65,7 @@ export default function New({ history }) {
           <input
             id="hostel"
             placeholder="Your hostel"
-            value={(hostel, formik.values.hostel)}
+            value={formik.values.hostel}
             onChange={
               ((event) => sethostel(event.target.value), formik.handleChange)
             }
@@ -82,7 +76,7 @@ export default function New({ history }) {
           <input
             id="hostel"
             placeholder="Your hostel"
-            value={(hostel, formik.values.hostel)}
+            value={formik.values.hostel}
             onChange={
               ((event) => sethostel(event.target.value), formik.handleChange)
             }
@@ -102,7 +96,7 @@ export default function New({ history }) {
           <input
             id="beds"
             placeholder="Which beds?"
-            value={(beds, formik.values.beds)}
+            value={formik.values.beds}
             onChange={
               ((event) => setbeds(event.target.value), formik.handleChange)
             }
@@ -113,7 +107,7 @@ export default function New({ history }) {
           <input
             id="beds"
             placeholder="Which beds?"
-            value={(beds, formik.values.beds)}
+            value={formik.values.beds}
             onChange={
               ((event) => setbeds(event.target.value), formik.handleChange)
             }
@@ -131,7 +125,7 @@ export default function New({ history }) {
           <input
             id="price"
             placeholder="Value per day"
-            value={(price, formik.values.price)}
+            value={formik.values.price}
             onChange={
               ((event) => setPrice(event.target.value), formik.handleChange)
             }
@@ -142,7 +136,7 @@ export default function New({ history }) {
           <input
             id="price"
             placeholder="Value per day"
-            value={(price, formik.values.price)}
+            value={formik.values.price}
             onChange={
               ((event) => setPrice(event.target.value), formik.handleChange)
             }
